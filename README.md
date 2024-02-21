@@ -4,8 +4,8 @@ Descripción breve del proyecto.
 
 ## Tecnologías Utilizadas
 
-- ASP .NET Core
 - C#
+- ASP .NET Core
 - Entity Framework Core
 - PostgreSQL
 - Visual Studio 2022
