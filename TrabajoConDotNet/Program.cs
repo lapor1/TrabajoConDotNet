@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TrabajoConDotNet.Data;
+using TrabajoConDotNet.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,54 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+/**************************************************************/
+
+app.MapPost("/Users/", async (User u, DataBase db) =>
+{
+	db.Users.Add(u);
+	await db.SaveChangesAsync();
+
+	return Results.Created($"/User/{u.Id}", u);
+});
+
+app.MapGet("/User/{id:int}", async (int id, DataBase db) =>
+{
+	return await db.Users.FindAsync(id)
+		is User u ? Results.Ok(u) : Results.NotFound();
+});
+
+app.MapGet("/User", async (DataBase db) => await db.Users.ToListAsync());
+
+app.MapPut("/User/{id:int}", async (int id, User u, DataBase db) =>
+{
+	if (u.Id != id)
+		return Results.BadRequest();
+
+	var User = await db.Users.FindAsync(id);
+
+	if (User is null) return Results.NotFound();
+
+	User.Username = u.Username;
+	User.Latitude = u.Latitude;
+	User.Longitude = u.Longitude;
+
+	await db.SaveChangesAsync();
+
+	return Results.Ok(User);
+});
+
+app.MapDelete("/User/{id:int}", async (int id, DataBase db) =>
+{
+	var User = await db.Users.FindAsync(id);
+
+	if (User is null) return Results.NotFound();
+
+	db.Users.Remove(User);
+	await db.SaveChangesAsync();
+
+	return Results.NoContent();
+});
 
 app.UseAuthorization();
 
