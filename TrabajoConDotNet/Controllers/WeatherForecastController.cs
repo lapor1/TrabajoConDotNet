@@ -22,7 +22,7 @@ namespace WebApplicationPrueba1.Controllers
 			_dbContext = dbContext;
 		}
 
-		[HttpGet(Name = "GetWeatherFromUser")]
+		[HttpGet(Name = "Get Weather From User")]
 		public async Task<string> Get(string username)
 		{
 
@@ -46,9 +46,11 @@ namespace WebApplicationPrueba1.Controllers
 				int hottestDayID = Array.IndexOf(dailyTemp.daily.apparent_temperature_max, hottestDayTemperature);
 				string hottestDay = dailyTemp.daily.time[hottestDayID];
 
-				WeatherResponse wR = new WeatherResponse();
-				wR.Date = hottestDay;
-				wR.MaxTemperature = hottestDayTemperature;
+				WeatherResponse wR = new()
+				{
+					Date = hottestDay,
+					MaxTemperature = hottestDayTemperature
+				};
 
 				Console.WriteLine($"El dia con mayor temperatura fue el {hottestDay} con una maxima de {hottestDayTemperature}°C");
 
@@ -59,8 +61,8 @@ namespace WebApplicationPrueba1.Controllers
 			}
 		}
 
-		public class WeatherResponse {
-			public string Date;
+		private class WeatherResponse {
+			public required string Date;
 			public float MaxTemperature;
 		}
 	}
