@@ -34,14 +34,3 @@ Ofrece la posibilidad de consultar, entre los próximos 14 días, cuál será el
 2. Abre el proyecto en Visual Studio 2022.
 3. Configura la conexión a la base de datos PostgreSQL en el archivo de configuración correspondiente.
 4. Ejecuta la aplicación.
-
-## Uso
-
-Proporciona ejemplos de cómo usar las API para crear usuarios y realizar consultas de días más cálidos.
-
-```bash
-# Ejemplo de creación de usuario
-curl -X POST -H "Content-Type: application/json" -d '{"username": "ejemplo", "location": {"latitude": 123.45, "longitude": -67.89}}' http://localhost:5000/api/usuarios
-
-# Ejemplo de consulta del día más cálido para un usuario específico
-curl -X GET http://localhost:5000/api/consultas/dia-mas-calido?usuarioId=1
