@@ -46,10 +46,22 @@ namespace WebApplicationPrueba1.Controllers
 				int hottestDayID = Array.IndexOf(dailyTemp.daily.apparent_temperature_max, hottestDayTemperature);
 				string hottestDay = dailyTemp.daily.time[hottestDayID];
 
+				WeatherResponse wR = new WeatherResponse();
+				wR.Date = hottestDay;
+				wR.MaxTemperature = hottestDayTemperature;
+
 				Console.WriteLine($"El dia con mayor temperatura fue el {hottestDay} con una maxima de {hottestDayTemperature}°C");
 
-				return responseString;
+				//return responseString;
+				//return $"El dia con mayor temperatura fue el {hottestDay} con una maxima de {hottestDayTemperature}°C";
+
+				return JsonConvert.SerializeObject(wR);
 			}
+		}
+
+		public class WeatherResponse {
+			public string Date;
+			public float MaxTemperature;
 		}
 	}
 }
