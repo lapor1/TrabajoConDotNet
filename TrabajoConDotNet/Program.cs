@@ -36,9 +36,16 @@ app.MapPost("/Users/", async (User u, DataBase db) =>
 	return Results.Created($"/User/{u.Id}", u);
 });
 
+/*
 app.MapGet("/User/{id:int}", async (int id, DataBase db) =>
 {
 	return await db.Users.FindAsync(id)
+		is User u ? Results.Ok(u) : Results.NotFound();
+});
+
+app.MapGet("/User/{username:string}", async (string username, DataBase db) =>
+{
+	return await db.Users.FindAsync(username)
 		is User u ? Results.Ok(u) : Results.NotFound();
 });
 
@@ -72,7 +79,7 @@ app.MapDelete("/User/{id:int}", async (int id, DataBase db) =>
 	await db.SaveChangesAsync();
 
 	return Results.NoContent();
-});
+});*/
 
 app.UseAuthorization();
 
