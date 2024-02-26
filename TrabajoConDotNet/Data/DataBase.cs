@@ -14,7 +14,7 @@ namespace TrabajoConDotNet.Data
 		}
 
 		//Tabla de usuarios
-		public DbSet<UserInDB> Users => Set<UserInDB>();
+		public DbSet<User> Users => Set<User>();
 
 	}
 }

@@ -27,7 +27,7 @@ namespace WebApplicationPrueba1.Controllers
 		public async Task<IActionResult> Get(string Username)
 		{
 
-			UserInDB user = await _dbContext.Users.Where(u => u.Username == Username).FirstOrDefaultAsync();
+			User user = await _dbContext.Users.Where(u => u.Username == Username).FirstOrDefaultAsync();
 
 			if (user == null)
 			{
