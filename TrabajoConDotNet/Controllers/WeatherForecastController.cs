@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+
 //using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Text.Json;
@@ -42,36 +44,22 @@ namespace WebApplicationPrueba1.Controllers
 				string responseString = await response.Content.ReadAsStringAsync();
 
 				Weather dailyTemp = JsonSerializer.Deserialize<Weather>(responseString);
-				
-				float hottestDayTemperature = dailyTemp.Daily.ApparentTemperatureMax.Max();
-				int hottestDayID = Array.IndexOf(dailyTemp.Daily.ApparentTemperatureMax, hottestDayTemperature);
-				string hottestDay = dailyTemp.Daily.Time[hottestDayID];
-				
 
-				//var q = dailyTemp.Daily.Time.Zip(dailyTemp.Daily.ApparentTemperatureMax, (l,n) => l + n.ToString());
-				//var hottestDay = q[hottestDayTemperature];
+				var hottestDayAndTemperature = dailyTemp.Daily.Time.Zip(dailyTemp.Daily.ApparentTemperatureMax, (d, t) => $"{d} {t}")
+					.OrderByDescending(dt => float.Parse(dt.Split(" ")[1]))
+					.First()
+					.Split(" ");
 
-				var wR = new WeatherResponse();
+				var weatherResponse = new
+				{
+					Date = hottestDayAndTemperature[0],
+					MaxTemperature = hottestDayAndTemperature[1]
+				};
 
-				wR.Date = hottestDay;
-				wR.MaxTemperature = hottestDayTemperature;
-				
-				/*
-				foreach(var s in q)
-					_logger.LogInformation($"among: {s}");*/
+				_logger.LogInformation($"El dia con mayor temperatura será el {hottestDayAndTemperature[0]} con una maxima de {hottestDayAndTemperature[1]}°C");
 
-				_logger.LogInformation($"El dia con mayor temperatura será el {hottestDay} con una maxima de {hottestDayTemperature}°C");
-
-				return Ok(wR);
+				return Ok(weatherResponse);
 			}
-		}
-
-		private class WeatherResponse {
-			#pragma warning disable CS8618 
-			public WeatherResponse() {}
-			#pragma warning restore
-			public string Date { get; set; }
-			public float MaxTemperature { get; set; }
 		}
 
 	}
