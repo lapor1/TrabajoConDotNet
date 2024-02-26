@@ -12,20 +12,20 @@ using static System.Net.WebRequestMethods;
 namespace WebApplicationPrueba1.Controllers
 {
 	[ApiController]
-	[Route("[controller]")]
-	public class WeatherForecastController : ControllerBase
+	[Route("hotest-day")]
+	public class HotestDayController : ControllerBase
 	{
 		private readonly DataBase _dbContext;
 
-		private readonly ILogger<WeatherForecastController> _logger;
+		private readonly ILogger<HotestDayController> _logger;
 
-		public WeatherForecastController(ILogger<WeatherForecastController> logger, DataBase dbContext)
+		public HotestDayController(ILogger<HotestDayController> logger, DataBase dbContext)
 		{
 			_logger = logger;
 			_dbContext = dbContext;
 		}
 
-		[HttpGet(Name = "Get Weather From User")]
+		[HttpGet("{Username}")]
 		public async Task<IActionResult> Get(string Username)
 		{
 
@@ -45,7 +45,8 @@ namespace WebApplicationPrueba1.Controllers
 
 				Weather dailyTemp = JsonSerializer.Deserialize<Weather>(responseString);
 
-				var hottestDayAndTemperature = dailyTemp.Daily.Time.Zip(dailyTemp.Daily.ApparentTemperatureMax, (d, t) => $"{d} {t}")
+				var hottestDayAndTemperature = dailyTemp.Daily.Time
+					.Zip(dailyTemp.Daily.ApparentTemperatureMax, (d, t) => $"{d} {t}")
 					.OrderByDescending(dt => float.Parse(dt.Split(" ")[1]))
 					.First()
 					.Split(" ");
