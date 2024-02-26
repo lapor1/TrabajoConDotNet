@@ -43,14 +43,17 @@ namespace WebApplicationPrueba1.Controllers
 
 				string responseString = await response.Content.ReadAsStringAsync();
 
+				//Convierte el Json (string) en objeto
 				Weather dailyTemp = JsonSerializer.Deserialize<Weather>(responseString);
 
+				//Concatena y Obtiene el dia y la temperatura mas alta
 				var hottestDayAndTemperature = dailyTemp.Daily.Time
 					.Zip(dailyTemp.Daily.ApparentTemperatureMax, (d, t) => $"{d} {t}")
 					.OrderByDescending(dt => float.Parse(dt.Split(" ")[1]))
 					.First()
 					.Split(" ");
 
+				//Respuesta
 				var weatherResponse = new
 				{
 					Date = hottestDayAndTemperature[0],

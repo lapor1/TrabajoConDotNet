@@ -26,65 +26,15 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-/**************************************************************/
-
+//Post (usuario)
 app.MapPost("/user/", async (User u, DataBase db) =>
 {
-
 	db.Users.Add(u);
-	
-	//Intento de escribir una sentencia se SQL
-	//db.Users.FromSql($"INSERT INTO public.\"Users\"(\r\n\t\"Username\", \"Latitude\", \"Longitude\")\r\n\tVALUES ({u.Username},{u.Latitude},{u.Longitude});");
 	
 	await db.SaveChangesAsync();
 
 	return Results.Created($"/User/{u.Username}", u);
 });
-
-/*
-app.MapGet("/User/{id:int}", async (int id, DataBase db) =>
-{
-	return await db.Users.FindAsync(id)
-		is User u ? Results.Ok(u) : Results.NotFound();
-});
-
-app.MapGet("/User/{username:string}", async (string username, DataBase db) =>
-{
-	return await db.Users.FindAsync(username)
-		is User u ? Results.Ok(u) : Results.NotFound();
-});
-
-app.MapGet("/User", async (DataBase db) => await db.Users.ToListAsync());
-
-app.MapPut("/User/{id:int}", async (int id, User u, DataBase db) =>
-{
-	if (u.Id != id)
-		return Results.BadRequest();
-
-	var User = await db.Users.FindAsync(id);
-
-	if (User is null) return Results.NotFound();
-
-	User.Username = u.Username;
-	User.Latitude = u.Latitude;
-	User.Longitude = u.Longitude;
-
-	await db.SaveChangesAsync();
-
-	return Results.Ok(User);
-});
-
-app.MapDelete("/User/{id:int}", async (int id, DataBase db) =>
-{
-	var User = await db.Users.FindAsync(id);
-
-	if (User is null) return Results.NotFound();
-
-	db.Users.Remove(User);
-	await db.SaveChangesAsync();
-
-	return Results.NoContent();
-});*/
 
 app.UseAuthorization();
 
