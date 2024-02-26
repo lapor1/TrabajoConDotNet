@@ -28,12 +28,21 @@ app.UseHttpsRedirection();
 
 /**************************************************************/
 
-app.MapPost("/Users/", async (User u, DataBase db) =>
+app.MapPost("/user/", async (UserInJson uJ, DataBase db) =>
 {
-	db.Users.Add(u);
+	var uDb = new UserInDB();
+
+	uDb.Username = uJ.Username;
+	uDb.Longitude = uJ.Longitude;
+	uDb.Latitude = uJ.Latitude;
+
+	db.Users.Add(uDb);
+	
+	//db.Users.FromSql($"INSERT INTO public.\"Users\"(\r\n\t\"Username\", \"Latitude\", \"Longitude\")\r\n\tVALUES ({u.Username},{u.Latitude},{u.Longitude});");
+	
 	await db.SaveChangesAsync();
 
-	return Results.Created($"/User/{u.Id}", u);
+	return Results.Created($"/User/{uDb.Username}", uDb);
 });
 
 /*

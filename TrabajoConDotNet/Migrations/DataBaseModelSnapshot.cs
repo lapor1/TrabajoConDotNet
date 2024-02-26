@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using System.ComponentModel.DataAnnotations.Schema;
 using TrabajoConDotNet.Data;
 
 #nullable disable
@@ -14,7 +15,7 @@ namespace TrabajoConDotNet.Migrations
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
-#pragma warning disable 612, 618
+        #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
@@ -23,27 +24,36 @@ namespace TrabajoConDotNet.Migrations
 
             modelBuilder.Entity("TrabajoConDotNet.Models.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                  
+					b.Property<int>("Id")
+						.ValueGeneratedOnAdd()
+						.HasColumnType("integer");
+                        
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+					b.Property<string>("Username")
+						.IsRequired()
+						.HasColumnType("text");
 
-                    b.Property<float>("Latitude")
+					//NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<string>("Username"));
+					
+                    //NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+					b.Property<float>("Latitude")
                         .HasColumnType("real");
 
                     b.Property<float>("Longitude")
                         .HasColumnType("real");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.HasKey();
+                    //b.Property("Id").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
-                    b.HasKey("Id");
+					b.HasAlternateKey("Username");
 
-                    b.ToTable("Users");
+
+					b.ToTable("Users");
                 });
+
 #pragma warning restore 612, 618
-        }
+		}
     }
 }

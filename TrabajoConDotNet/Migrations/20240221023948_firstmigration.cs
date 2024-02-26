@@ -15,10 +15,10 @@ namespace TrabajoConDotNet.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+					Id = table.Column<int>(type: "integer", nullable: false).Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+					
                     Username = table.Column<string>(type: "text", nullable: false),
-                    Latitude = table.Column<float>(type: "real", nullable: false),
+					Latitude = table.Column<float>(type: "real", nullable: false),
                     Longitude = table.Column<float>(type: "real", nullable: false)
                 },
                 constraints: table =>
