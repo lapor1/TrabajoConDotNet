@@ -1,56 +1,52 @@
-﻿namespace TrabajoConDotNet.Models
+﻿using System.Text.Json.Serialization;
+
+namespace TrabajoConDotNet.Models
 {
 	public class Weather
 	{
+		[JsonPropertyName("latitude")]
 		public float Latitude { get; set; }
+
+		[JsonPropertyName("longitude")]
 		public float Longitude { get; set; }
+
+		[JsonPropertyName("generationtime_ms")]
 		public float GenerationtimeMs { get; set; }
+
+		[JsonPropertyName("utc_offset_seconds")]
 		public int UtcOffsetSeconds { get; set; }
+
+		[JsonPropertyName("timezone")]
 		public string Timezone { get; set; }
+
+		[JsonPropertyName("timezone_abbreviation")]
 		public string TimezoneAbbreviation { get; set; }
+
+		[JsonPropertyName("elevation")]
 		public float Elevation { get; set; }
+
+		[JsonPropertyName("daily_units")]
 		public DailyUnits DailyUnits { get; set; }
-		public DailyA Daily { get; set; }
+
+		[JsonPropertyName("daily")]
+		public Daily Daily { get; set; }
 	}
 
 	public class DailyUnits
 	{
+		[JsonPropertyName("time")]
 		public string Time { get; set; }
+
+		[JsonPropertyName("apparent_temperature_max")]
 		public string ApparentTemperatureMax { get; set; }
-	}
-
-	public class DailyA
-	{
-		public string[] Time { get; set; }
-		public float[] ApparentTemperatureMax { get; set; }
-	}
-
-
-	public class Rootobject
-	{
-		public float latitude { get; set; }
-		public float longitude { get; set; }
-		public float generationtime_ms { get; set; }
-		public int utc_offset_seconds { get; set; }
-		public string timezone { get; set; }
-		public string timezone_abbreviation { get; set; }
-		public float elevation { get; set; }
-		public Daily_Units daily_units { get; set; }
-		public Daily daily { get; set; }
-	}
-
-	public class Daily_Units
-	{
-		public string time { get; set; }
-		public string apparent_temperature_max { get; set; }
 	}
 
 	public class Daily
 	{
-		public string[] time { get; set; }
-		public float[] apparent_temperature_max { get; set; }
+		[JsonPropertyName("time")]
+		public string[] Time { get; set; }
+
+		[JsonPropertyName("apparent_temperature_max")]
+		public float[] ApparentTemperatureMax { get; set; }
 	}
-
-	
-
 }

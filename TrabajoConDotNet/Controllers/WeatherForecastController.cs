@@ -41,39 +41,11 @@ namespace WebApplicationPrueba1.Controllers
 
 				string responseString = await response.Content.ReadAsStringAsync();
 
-				Rootobject dailyTemp = JsonSerializer.Deserialize<Rootobject>(responseString);
-
-				//Weather weather = WeatherParseoJson(dailyTemp);
-
-				Weather weather = new Weather();
-
-				weather.Longitude = dailyTemp.longitude;
-				weather.Latitude = dailyTemp.latitude;
-				weather.GenerationtimeMs = dailyTemp.generationtime_ms;
-				weather.UtcOffsetSeconds = dailyTemp.utc_offset_seconds;
-				weather.Timezone = dailyTemp.timezone;
-				weather.TimezoneAbbreviation = dailyTemp.timezone_abbreviation;
-				weather.Elevation = dailyTemp.elevation;
-				var wdu = new DailyUnits();
-				wdu.Time = dailyTemp.daily_units.time;
-				wdu.ApparentTemperatureMax = dailyTemp.daily_units.apparent_temperature_max;
-				weather.DailyUnits = wdu;
-				var wd = new DailyA();
-				wd.Time = dailyTemp.daily.time;
-				wd.ApparentTemperatureMax = dailyTemp.daily.apparent_temperature_max;
-				weather.Daily = wd;
-
-				//JsonConvert.DeserializeObject<Weather>(responseString);
-
-				/*
-				float hottestDayTemperature = dailyTemp.daily.apparent_temperature_max.Max();
-				int hottestDayID = Array.IndexOf(dailyTemp.daily.apparent_temperature_max, hottestDayTemperature);
-				string hottestDay = dailyTemp.daily.time[hottestDayID];
-				*/
-
-				float hottestDayTemperature = weather.Daily.ApparentTemperatureMax.Max();
-				int hottestDayID = Array.IndexOf(weather.Daily.ApparentTemperatureMax, hottestDayTemperature);
-				string hottestDay = weather.Daily.Time[hottestDayID];
+				Weather dailyTemp = JsonSerializer.Deserialize<Weather>(responseString);
+				
+				float hottestDayTemperature = dailyTemp.Daily.ApparentTemperatureMax.Max();
+				int hottestDayID = Array.IndexOf(dailyTemp.Daily.ApparentTemperatureMax, hottestDayTemperature);
+				string hottestDay = dailyTemp.Daily.Time[hottestDayID];
 				
 
 				//var q = dailyTemp.Daily.Time.Zip(dailyTemp.Daily.ApparentTemperatureMax, (l,n) => l + n.ToString());
@@ -102,24 +74,5 @@ namespace WebApplicationPrueba1.Controllers
 			public float MaxTemperature { get; set; }
 		}
 
-		/*
-		public Weather WeatherParseoJson(Rootobject rootobject)
-		{
-			Weather weather = new Weather();
-
-			weather.Longitude = rootobject.longitude;
-			weather.Latitude = rootobject.latitude;
-			weather.GenerationtimeMs = rootobject.generationtime_ms;
-			weather.UtcOffsetSeconds = rootobject.utc_offset_seconds;
-			weather.Timezone = rootobject.timezone;
-			weather.TimezoneAbbreviation = rootobject.timezone_abbreviation;
-			weather.Elevation = rootobject.elevation;
-			weather.DailyUnits.ApparentTemperatureMax = rootobject.daily_units.apparent_temperature_max;
-			weather.DailyUnits.Time = rootobject.daily_units.time;
-			weather.Daily.Time = rootobject.daily.time;
-			weather.Daily.ApparentTemperatureMax = rootobject.daily.apparent_temperature_max;
-
-			return weather;
-		}*/
 	}
 }

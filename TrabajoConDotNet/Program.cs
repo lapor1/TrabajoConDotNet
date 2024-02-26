@@ -38,6 +38,7 @@ app.MapPost("/user/", async (UserInJson uJ, DataBase db) =>
 
 	db.Users.Add(uDb);
 	
+	//Intento de escribir una sentencia se SQL
 	//db.Users.FromSql($"INSERT INTO public.\"Users\"(\r\n\t\"Username\", \"Latitude\", \"Longitude\")\r\n\tVALUES ({u.Username},{u.Latitude},{u.Longitude});");
 	
 	await db.SaveChangesAsync();

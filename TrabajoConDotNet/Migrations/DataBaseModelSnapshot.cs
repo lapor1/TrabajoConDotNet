@@ -28,15 +28,10 @@ namespace TrabajoConDotNet.Migrations
 					b.Property<int>("Id")
 						.ValueGeneratedOnAdd()
 						.HasColumnType("integer");
-                        
 
 					b.Property<string>("Username")
 						.IsRequired()
 						.HasColumnType("text");
-
-					//NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<string>("Username"));
-					
-                    //NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
 					b.Property<float>("Latitude")
                         .HasColumnType("real");
@@ -45,7 +40,6 @@ namespace TrabajoConDotNet.Migrations
                         .HasColumnType("real");
 
                     b.HasKey();
-                    //b.Property("Id").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
 					b.HasAlternateKey("Username");
 

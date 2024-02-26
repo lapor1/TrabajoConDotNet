@@ -1,6 +1,6 @@
 @TrabajoConDotNet_HostAddress = http://localhost:5167
 
-GET {{TrabajoConDotNet_HostAddress}}/weatherforecast/
+GET {{TrabajoConDotNet_HostAddress}}/hottest-day/
 Accept: application/json
 
 ###
