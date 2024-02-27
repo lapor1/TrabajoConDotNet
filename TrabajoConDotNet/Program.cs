@@ -26,16 +26,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-//Post (usuario)
-app.MapPost("/user/", async (User u, DataBase db) =>
-{
-	db.Users.Add(u);
-	
-	await db.SaveChangesAsync();
-
-	return Results.Created($"/User/{u.Username}", u);
-});
-
 app.UseAuthorization();
 
 app.MapControllers();

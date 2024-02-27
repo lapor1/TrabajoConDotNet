@@ -9,7 +9,7 @@ using TrabajoConDotNet.Data;
 using TrabajoConDotNet.Models;
 using static System.Net.WebRequestMethods;
 
-namespace WebApplicationPrueba1.Controllers
+namespace TrabajoConDotNet.Controllers
 {
 	[ApiController]
 	[Route("hotest-day")]
@@ -48,23 +48,46 @@ namespace WebApplicationPrueba1.Controllers
 
 				//Concatena y Obtiene el dia y la temperatura mas alta
 				var hottestDayAndTemperature = dailyTemp.Daily.Time
-					.Zip(dailyTemp.Daily.ApparentTemperatureMax, (d, t) => $"{d} {t}")
-					.OrderByDescending(dt => float.Parse(dt.Split(" ")[1]))
-					.First()
-					.Split(" ");
+					.Zip(dailyTemp.Daily.ApparentTemperatureMax)
+					.OrderByDescending(dt => dt.Second)
+					.First();
 
 				//Respuesta
 				var weatherResponse = new
 				{
-					Date = hottestDayAndTemperature[0],
-					MaxTemperature = hottestDayAndTemperature[1]
+					Date = hottestDayAndTemperature.First,
+					MaxTemperature = hottestDayAndTemperature.Second
 				};
 
-				_logger.LogInformation($"El dia con mayor temperatura será el {hottestDayAndTemperature[0]} con una maxima de {hottestDayAndTemperature[1]}°C");
+				_logger.LogInformation($"El dia con mayor temperatura será el {hottestDayAndTemperature.First} con una maxima de {hottestDayAndTemperature.Second}°C");
 
 				return Ok(weatherResponse);
 			}
 		}
+	}
 
+	[ApiController]
+	[Route("user")]
+	public class UserController : Controller
+	{
+		private readonly DataBase _dbContext;
+
+		private readonly ILogger<UserController> _logger;
+
+		public UserController(ILogger<UserController> logger, DataBase dbContext)
+		{
+			_logger = logger;
+			_dbContext = dbContext;
+		}
+
+		[HttpPost]
+		public async Task<ActionResult> Post(User u)
+		{
+			_dbContext.Users.Add(u);
+			await _dbContext.SaveChangesAsync();
+
+			_logger.LogInformation($"Se ha creado usuario {u.Username}");
+			return Ok();
+		}
 	}
 }
